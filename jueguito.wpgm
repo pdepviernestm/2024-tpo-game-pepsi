@@ -1,18 +1,23 @@
 import juego.*
 import wollok.game.*
 
-program PepitaGame {
-    game.title("Pepita")
+program Lobito {
+    game.title("Lobizon")
     game.height(20)
     game.width(40)
     game.boardGround("fondo.jpg")
 
-    game.addVisual(dinosaurio)
-    game.addVisual(obstaculos)
+    game.addVisual(lobo)
+
+    // Actualiza el sprite y mueve el lobo cada 100 milisegundos
+    game.onTick(60, "movimiento", {
+        lobo.correr()
+    })
 
     keyboard.up().onPressDo({
-        dinosaurio.position(dinosaurio.position().up(1))
-        game.schedule(500, {dinosaurio.position(dinosaurio.position().down(1))})
+        lobo.correr()
+        lobo.position(lobo.position().up(1))
+        game.schedule(500, {lobo.position(lobo.position().down(1))})
     })
 
     game.start()
