@@ -1,0 +1,19 @@
+import juego.*
+import wollok.game.*
+
+program PepitaGame {
+    game.title("Pepita")
+    game.height(20)
+    game.width(40)
+    game.boardGround("fondo.jpg")
+
+    game.addVisual(dinosaurio)
+    game.addVisual(obstaculos)
+
+    keyboard.up().onPressDo({
+        dinosaurio.position(dinosaurio.position().up(1))
+        game.schedule(500, {dinosaurio.position(dinosaurio.position().down(1))})
+    })
+
+    game.start()
+}
