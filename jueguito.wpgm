@@ -10,14 +10,22 @@ program Lobito {
     game.addVisual(lobo)
 
     // Actualiza el sprite y mueve el lobo cada 100 milisegundos
-    game.onTick(60, "movimiento", {
+    game.onTick(100, "movimiento", {
         lobo.correr()
-    })
+    })  
+
+
 
     keyboard.up().onPressDo({
-        lobo.correr()
-        lobo.position(lobo.position().up(1))
-        game.schedule(500, {lobo.position(lobo.position().down(1))})
+        if (lobo.position() == game.at(10, 10)){
+            game.removeTickEvent("movimiento")
+            game.onTick(100, "salto", {
+                lobo.saltar()
+            })
+            game.schedule(700, {game.removeTickEvent("salto")})
+            game.schedule(900, {game.onTick(100, "movimiento", {lobo.correr()})})
+        }
+        
     })
 
     game.start()
