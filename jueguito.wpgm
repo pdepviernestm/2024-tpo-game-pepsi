@@ -6,8 +6,10 @@ program Lobito {
     game.height(20)
     game.width(40)
     game.boardGround("fondo.jpg")
-
+    
+    game.addVisual(piso)
     game.addVisual(lobo)
+    
 
     const obstaculo1 = new Obstaculo(position = game.at(30,10), imagen = "obstaculo1.png")
     const obstaculo2 = new Obstaculo(position = game.at(45,11), imagen = "obstaculo2.png")
@@ -15,7 +17,7 @@ program Lobito {
     game.addVisual(obstaculo1)
 
     
-    game.schedule(2000,{game.addVisual(obstaculo2)})
+    game.schedule(3000,{game.addVisual(obstaculo2)})
 
     //Ver por qué no se ven el contador ni el cartel de score
     game.addVisual(score)
@@ -31,7 +33,7 @@ program Lobito {
     game.onTick(250, "obstaculo2Movimiento",{obstaculo2.avanzar()})
 
     //Podría agregarse un visual de game over
-    game.onCollideDo(lobo, {obs=> obs.seChoco()})
+    game.onCollideDo(lobo, {obs => obs.seChoco()})
 
 
     //Contador de puntos
@@ -40,15 +42,12 @@ program Lobito {
     keyboard.up().onPressDo({
         if (lobo.position() == game.at(10, 10)){
             game.removeTickEvent("movimiento")
-            game.onTick(100, "salto", {
+            game.onTick(75,"salto",{
                 lobo.saltar()
             })
-            game.schedule(700, {game.removeTickEvent("salto")})
-            game.schedule(900, {game.onTick(100, "movimiento", {lobo.correr()})})
+            game.schedule(525, {game.removeTickEvent("salto")})
+            game.schedule(700, {game.onTick(100, "movimiento", {lobo.correr()})})
         }
-        
-
-
     })
 
     game.start()

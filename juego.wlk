@@ -16,8 +16,12 @@ object lobo {
         "saltar3.png",
         "saltar4.png",
         "saltar5.png",
+        "saltar5.png",
+        "saltar6.png",
         "saltar6.png",
         "saltar7.png",
+        "saltar7.png",
+        "saltar8.png",
         "saltar8.png"
     ]
 
@@ -39,14 +43,16 @@ object lobo {
     }
 
     method saltar() {
-        if(currentSpriteIndex<=8){
-            currentSpriteIndex=9
+        if(currentSpriteIndex <= 8){
+            currentSpriteIndex = 9
             self.image()
             self.position(self.position().up(1))
-            game.schedule(800, {self.position(self.position().down(1))})
+            game.schedule(200, {self.position(self.position().up(1))})
+            game.schedule(400, {self.position(self.position().down(1))})
+            game.schedule(600, {self.position(self.position().down(1))})
         }
         else{
-            currentSpriteIndex+=1
+            currentSpriteIndex += 1
             self.image()
         }
         
@@ -82,5 +88,12 @@ object contador {
     }
 
     method image()= puntaje.toString() + ".png"
+
+}
+
+object piso {
+    var property position = game.at(0, 0)
+    const imagen ="piso.png"
+    method image() = imagen
 
 }
