@@ -43,7 +43,7 @@ object lobo {
             currentSpriteIndex=9
             self.image()
             self.position(self.position().up(1))
-            game.schedule(700, {self.position(self.position().down(1))})
+            game.schedule(800, {self.position(self.position().down(1))})
         }
         else{
             currentSpriteIndex+=1
@@ -61,6 +61,9 @@ object obstaculo1{
     method avanzar(){
         self.position(self.position().left(1))
     }
+    method seChoco(){
+        game.stop()
+    }
 }
 
 object obstaculo2{
@@ -70,4 +73,27 @@ object obstaculo2{
     method avanzar(){
         self.position(self.position().left(1))
     }
+
+    method seChoco(){
+        game.stop()
+    }
+}
+
+object score{
+    var property position = game.at(19,35)
+
+    const imagen = "score.png"
+    method image() = imagen
+}
+
+object contador {
+    var property position = game.at(19,38)
+    var puntaje = 0
+
+    method aumentarPuntaje(){
+        puntaje +=1
+    }
+
+    method image()= puntaje.toString() + ".png"
+
 }
