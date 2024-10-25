@@ -8,13 +8,19 @@ program Lobito {
     game.boardGround("fondo.jpg")
 
     game.addVisual(lobo)
+    game.addVisual(obstaculo1)
+    game.schedule(2000,{game.addVisual(obstaculo2)})
 
     // Actualiza el sprite y mueve el lobo cada 100 milisegundos
     game.onTick(100, "movimiento", {
         lobo.correr()
     })  
 
+    //Mueve un obstaculo
+    game.onTick(300, "obstaculo1Movimiento",{obstaculo1.avanzar()})
+    game.onTick(250, "obstaculo1Movimiento",{obstaculo2.avanzar()})
 
+    //ToDo: OnCollide
 
     keyboard.up().onPressDo({
         if (lobo.position() == game.at(10, 10)){
@@ -26,6 +32,8 @@ program Lobito {
             game.schedule(900, {game.onTick(100, "movimiento", {lobo.correr()})})
         }
         
+
+
     })
 
     game.start()

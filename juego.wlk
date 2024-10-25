@@ -54,11 +54,20 @@ object lobo {
 
 }
 
-object obstaculos{
-    var property position = game.at(10,30)
-    const imagen = "obstaculo.png"
-    method image() = imagen 
+object obstaculo1{
+    var property position = game.at(30,10)
+    const imagen = "obstaculo1.png"
+    method image() = imagen
+    method avanzar(){
+        self.position(self.position().left(1))
+    }
+}
 
-
-
+object obstaculo2{
+    var property position = game.at(45,11)
+    const imagen = "obstaculo2.png"
+    method image() = imagen
+    method avanzar(){
+        self.position(self.position().left(1))
+    }
 }
