@@ -54,9 +54,10 @@ object lobo {
 
 }
 
-object obstaculo1{
-    var property position = game.at(30,10)
-    const imagen = "obstaculo1.png"
+
+class Obstaculo{
+    var property position
+    const imagen
     method image() = imagen
     method avanzar(){
         self.position(self.position().left(1))
@@ -65,20 +66,6 @@ object obstaculo1{
         game.stop()
     }
 }
-
-object obstaculo2{
-    var property position = game.at(45,11)
-    const imagen = "obstaculo2.png"
-    method image() = imagen
-    method avanzar(){
-        self.position(self.position().left(1))
-    }
-
-    method seChoco(){
-        game.stop()
-    }
-}
-
 object score{
     var property position = game.at(19,35)
 

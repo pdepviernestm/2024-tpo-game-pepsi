@@ -8,7 +8,13 @@ program Lobito {
     game.boardGround("fondo.jpg")
 
     game.addVisual(lobo)
+
+    const obstaculo1 = new Obstaculo(position = game.at(30,10), imagen = "obstaculo1.png")
+    const obstaculo2 = new Obstaculo(position = game.at(45,11), imagen = "obstaculo2.png")
+
     game.addVisual(obstaculo1)
+
+    
     game.schedule(2000,{game.addVisual(obstaculo2)})
 
     //Ver por qué no se ven el contador ni el cartel de score
