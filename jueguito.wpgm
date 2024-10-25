@@ -11,6 +11,10 @@ program Lobito {
     game.addVisual(obstaculo1)
     game.schedule(2000,{game.addVisual(obstaculo2)})
 
+    //Ver por qué no se ven el contador ni el cartel de score
+    game.addVisual(score)
+    game.addVisual(contador)
+
     // Actualiza el sprite y mueve el lobo cada 100 milisegundos
     game.onTick(100, "movimiento", {
         lobo.correr()
@@ -18,9 +22,14 @@ program Lobito {
 
     //Mueve un obstaculo
     game.onTick(300, "obstaculo1Movimiento",{obstaculo1.avanzar()})
-    game.onTick(250, "obstaculo1Movimiento",{obstaculo2.avanzar()})
+    game.onTick(250, "obstaculo2Movimiento",{obstaculo2.avanzar()})
 
-    //ToDo: OnCollide
+    //Podría agregarse un visual de game over
+    game.onCollideDo(lobo, {obs=> obs.seChoco()})
+
+
+    //Contador de puntos
+    game.onTick(1000, "aumentar puntaje", {contador.aumentarPuntaje()})
 
     keyboard.up().onPressDo({
         if (lobo.position() == game.at(10, 10)){
