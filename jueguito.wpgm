@@ -9,44 +9,45 @@ program Lobito {
     
     game.addVisual(piso)
     game.addVisual(lobo)
-    
+    //game.addVisual(score)
+    game.addVisual(contador1)
+    game.addVisual(contador2)
 
-    const obstaculo1 = new Obstaculo(position = game.at(30,10), imagen = "obstaculo1.png")
-    const obstaculo2 = new Obstaculo(position = game.at(45,11), imagen = "obstaculo2.png")
+    const obstaculo1 = new Obstaculo(position = game.at(30,3), imagen = "obstaculo1.png")
+    const obstaculo2 = new Obstaculo(position = game.at(80,4), imagen = "obstaculo2.png")
+    const obstaculo3 = new Obstaculo(position = game.at(80,3), imagen = "obstaculo3.png")  
 
     game.addVisual(obstaculo1)
 
     
     game.schedule(3000,{game.addVisual(obstaculo2)})
-
-    //Ver por qué no se ven el contador ni el cartel de score
-    game.addVisual(score)
-    game.addVisual(contador)
-
+    game.schedule(3000,{game.addVisual(obstaculo3)})
+  
     // Actualiza el sprite y mueve el lobo cada 100 milisegundos
     game.onTick(100, "movimiento", {
         lobo.correr()
     })  
 
     //Mueve un obstaculo
-    game.onTick(300, "obstaculo1Movimiento",{obstaculo1.avanzar()})
-    game.onTick(250, "obstaculo2Movimiento",{obstaculo2.avanzar()})
+    game.onTick(150, "obstaculo1Movimiento",{obstaculo1.avanzar()})
+    game.onTick(100, "obstaculo2Movimiento",{obstaculo2.avanzar()})
+    game.onTick(125, "obstaculo3Movimiento",{obstaculo3.avanzar()})
 
     //Podría agregarse un visual de game over
     game.onCollideDo(lobo, {obs => obs.seChoco()})
 
 
     //Contador de puntos
-    game.onTick(1000, "aumentar puntaje", {contador.aumentarPuntaje()})
+    game.onTick(1000, "aumentar puntaje", {contador1.aumentarPuntaje()})
 
     keyboard.up().onPressDo({
-        if (lobo.position() == game.at(10, 10)){
+        if (lobo.position() == game.at(10, 3)){
             game.removeTickEvent("movimiento")
             game.onTick(75,"salto",{
                 lobo.saltar()
             })
             game.schedule(525, {game.removeTickEvent("salto")})
-            game.schedule(700, {game.onTick(100, "movimiento", {lobo.correr()})})
+            game.schedule(675, {game.onTick(100, "movimiento", {lobo.correr()})})
         }
     })
 

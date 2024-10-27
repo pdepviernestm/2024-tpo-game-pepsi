@@ -1,5 +1,5 @@
 object lobo {
-    var property position = game.at(10, 10)
+    var property position = game.at(10, 3)
 
     const sprites = [
         "correr1.png",
@@ -50,6 +50,7 @@ object lobo {
             game.schedule(200, {self.position(self.position().up(1))})
             game.schedule(400, {self.position(self.position().down(1))})
             game.schedule(600, {self.position(self.position().down(1))})
+            game.schedule(650, {currentSpriteIndex = 0})
         }
         else{
             currentSpriteIndex += 1
@@ -79,15 +80,76 @@ object score{
     method image() = imagen
 }
 
-object contador {
-    var property position = game.at(19,38)
+object contador1 {
+
+    const sprites = [
+        "numero0.png",
+        "numero1.png",
+        "numero2.png",
+        "numero3.png",
+        "numero4.png",
+        "numero5.png",
+        "numero6.png",
+        "numero7.png",
+        "numero8.png",
+        "numero9.png"
+    ]
+
+    var currentSpriteIndex = 0
+    // Método que devuelve la ruta del sprite actual
+    method image() = sprites.get(currentSpriteIndex)
+
+    var property position = game.at(17,36)
     var puntaje = 0
 
     method aumentarPuntaje(){
-        puntaje +=1
-    }
+        puntaje += 1
 
-    method image()= puntaje.toString() + ".png"
+    if(puntaje % 10)
+    {
+        currentSpriteIndex += 1
+        self.image()
+        contador2.image()
+    }
+    else
+    {
+        currentSpriteIndex = 0
+        contador2.aumentarPuntaje()
+    }
+    }
+    
+    //method image()= puntaje.toString() //+ ".png"
+
+}
+
+object contador2 {
+    var property position = game.at(16,36)
+    var puntaje = 0
+
+const sprites = [
+        "numero0.png",
+        "numero1.png",
+        "numero2.png",
+        "numero3.png",
+        "numero4.png",
+        "numero5.png",
+        "numero6.png",
+        "numero7.png",
+        "numero8.png",
+        "numero9.png"
+    ]
+
+    var currentSpriteIndex = 0
+    // Método que devuelve la ruta del sprite actual
+    method image() = sprites.get(currentSpriteIndex)
+    
+    method aumentarPuntaje(){
+        puntaje += 1
+        currentSpriteIndex += 1
+        self.image()
+    }
+    
+    //method image()= puntaje.toString() //+ ".png"
 
 }
 
