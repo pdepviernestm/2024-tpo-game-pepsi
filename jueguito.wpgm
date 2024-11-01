@@ -2,54 +2,64 @@ import juego.*
 import wollok.game.*
 
 program Lobito {
-    game.title("Lobizon")
+    game.title("Lobizon")   
     game.height(20)
     game.width(40)
-    game.boardGround("fondo.jpg")
-    
-    game.addVisual(piso)
-    game.addVisual(lobo)
 
-    game.addVisual(contador1)
-    game.addVisual(contador2)
+    game.boardGround("fondo.jpg")
 
     const caballero = new Obstaculo(position = game.at(30,3), imagen = "caballero.png")
     const bruja = new Obstaculo(position = game.at(80,5), imagen = "bruja.png")
-    const pinchos = new Obstaculo(position = game.at(80,3), imagen = "pinchos.png")  
+    const pinchos = new Obstaculo(position = game.at(80,3), imagen = "pinchos.png") 
 
-    game.addVisual(caballero)
+    game.addVisual(inicio)
 
-    
-    game.schedule(3000,{game.addVisual(bruja)})
-    game.schedule(3000,{game.addVisual(pinchos)})
+    keyboard.enter().onPressDo({
+        if (!inicio.estaIniciado()){
+            inicio.iniciar()
+            game.removeVisual(inicio)
+
+            game.addVisual(piso)
+            game.addVisual(lobo)
+            game.addVisual(contador1)
+            game.addVisual(contador2)
+            game.addVisual(caballero)
+            
+            game.schedule(3000,{game.addVisual(bruja)})
+            game.schedule(3000,{game.addVisual(pinchos)})
   
-    // Actualiza el sprite y mueve el lobo cada 100 milisegundos
-    game.onTick(100, "movimiento", {
-        lobo.correr()
-    })  
+            // Actualiza el sprite y mueve el lobo cada 100 milisegundos
+            game.onTick(100, "movimiento", {
+                lobo.correr()
+            })  
 
-    //Mueve un obstaculo
-    game.onTick(150, "caballeroMovimiento",{caballero.avanzar()})
-    game.onTick(100, "brujaMovimiento",{bruja.avanzar()})
-    game.onTick(125, "pinchosMovimiento",{pinchos.avanzar()})
+            //Mueve un obstaculo
+            game.onTick(150, "caballeroMovimiento",{caballero.avanzar()})
+            game.onTick(100, "brujaMovimiento",{bruja.avanzar()})
+            game.onTick(125, "pinchosMovimiento",{pinchos.avanzar()})
 
-    //Podría agregarse un visual de game over
-    game.onCollideDo(lobo, {obs => obs.seChoco()})
+            //Podría agregarse un visual de game over
+            game.onCollideDo(lobo, {obs => obs.seChoco()})
 
 
-    //Contador de puntos
-    game.onTick(1000, "aumentar puntaje", {contador1.aumentarPuntaje()})
+            //Contador de puntos
+            game.onTick(1000, "aumentar puntaje", {contador1.aumentarPuntaje()})
 
-    keyboard.up().onPressDo({
-        if (lobo.position() == game.at(10, 3)){
-            game.removeTickEvent("movimiento")
-            game.onTick(75,"salto",{
-                lobo.saltar()
+            keyboard.up().onPressDo({
+            if (lobo.position() == game.at(10, 3)){
+                game.removeTickEvent("movimiento")
+                game.onTick(75,"salto",{
+                    lobo.saltar()
+                })
+                game.schedule(525, {game.removeTickEvent("salto")})
+                game.schedule(675, {game.onTick(100, "movimiento", {lobo.correr()})})
+            }
             })
-            game.schedule(525, {game.removeTickEvent("salto")})
-            game.schedule(675, {game.onTick(100, "movimiento", {lobo.correr()})})
-        }
-    })
 
+        }
+        
+    })
+    
     game.start()
 }
+

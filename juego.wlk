@@ -157,6 +157,22 @@ const sprites = [
 object piso {
     var property position = game.at(0, 0)
     const imagen ="piso.png"
+
+    method desplazar(){
+
+    }
+
     method image() = imagen
 
+}
+
+object inicio {
+    var property position = game.at(16, 8)
+    method image() = "start.png"
+    var iniciado = false
+    method estaIniciado() = iniciado
+
+    method iniciar() {
+      iniciado=true
+    }
 }
