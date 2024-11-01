@@ -38,7 +38,7 @@ program Lobito {
 
             //Mueve un obstaculo
             game.onTick(150, "caballeroMovimiento",{caballero.avanzar()})
-            game.onTick(100, "brujaMovimiento",{bruja.avanzar()})
+            game.onTick(110, "brujaMovimiento",{bruja.avanzar()})
             game.onTick(150, "pinchosMovimiento",{pinchos.avanzar()})
             game.onTick(150, "pisoMovimiento",{piso1.desplazar()})
             game.onTick(150, "pisoMovimiento",{piso2.desplazar()})
