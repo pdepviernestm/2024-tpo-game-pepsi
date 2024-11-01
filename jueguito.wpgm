@@ -9,19 +9,19 @@ program Lobito {
     
     game.addVisual(piso)
     game.addVisual(lobo)
-    //game.addVisual(score)
+
     game.addVisual(contador1)
     game.addVisual(contador2)
 
-    const obstaculo1 = new Obstaculo(position = game.at(30,3), imagen = "obstaculo1.png")
-    const obstaculo2 = new Obstaculo(position = game.at(80,4), imagen = "obstaculo2.png")
-    const obstaculo3 = new Obstaculo(position = game.at(80,3), imagen = "obstaculo3.png")  
+    const caballero = new Obstaculo(position = game.at(30,3), imagen = "caballero.png")
+    const bruja = new Obstaculo(position = game.at(80,5), imagen = "bruja.png")
+    const pinchos = new Obstaculo(position = game.at(80,3), imagen = "pinchos.png")  
 
-    game.addVisual(obstaculo1)
+    game.addVisual(caballero)
 
     
-    game.schedule(3000,{game.addVisual(obstaculo2)})
-    game.schedule(3000,{game.addVisual(obstaculo3)})
+    game.schedule(3000,{game.addVisual(bruja)})
+    game.schedule(3000,{game.addVisual(pinchos)})
   
     // Actualiza el sprite y mueve el lobo cada 100 milisegundos
     game.onTick(100, "movimiento", {
@@ -29,9 +29,9 @@ program Lobito {
     })  
 
     //Mueve un obstaculo
-    game.onTick(150, "obstaculo1Movimiento",{obstaculo1.avanzar()})
-    game.onTick(100, "obstaculo2Movimiento",{obstaculo2.avanzar()})
-    game.onTick(125, "obstaculo3Movimiento",{obstaculo3.avanzar()})
+    game.onTick(150, "caballeroMovimiento",{caballero.avanzar()})
+    game.onTick(100, "brujaMovimiento",{bruja.avanzar()})
+    game.onTick(125, "pinchosMovimiento",{pinchos.avanzar()})
 
     //Podría agregarse un visual de game over
     game.onCollideDo(lobo, {obs => obs.seChoco()})

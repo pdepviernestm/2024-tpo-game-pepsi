@@ -67,17 +67,17 @@ class Obstaculo{
     const imagen
     method image() = imagen
     method avanzar(){
-        self.position(self.position().left(1))
+        if (self.position()!=game.at(0, self.position().y())){
+            self.position(self.position().left(1))
+        }
+        else{
+            self.position(game.at(80, self.position().y())) 
+        }
+        
     }
     method seChoco(){
         game.stop()
     }
-}
-object score{
-    var property position = game.at(19,35)
-
-    const imagen = "score.png"
-    method image() = imagen
 }
 
 object contador1 {
@@ -95,27 +95,29 @@ object contador1 {
         "numero9.png"
     ]
 
-    var currentSpriteIndex = 0
+    //var currentSpriteIndex = 0
     // Método que devuelve la ruta del sprite actual
-    method image() = sprites.get(currentSpriteIndex)
+    method image() = sprites.get(puntaje)
 
-    var property position = game.at(17,36)
+    var property position = game.at(11,0)
     var puntaje = 0
 
     method aumentarPuntaje(){
-        puntaje += 1
+        
 
-    if(puntaje % 10)
+    if(puntaje < 9)
     {
-        currentSpriteIndex += 1
-        self.image()
-        contador2.image()
+        puntaje += 1
+        
+        //contador2.image()
     }
     else
     {
-        currentSpriteIndex = 0
+        puntaje = 0
         contador2.aumentarPuntaje()
     }
+    self.image()
+
     }
     
     //method image()= puntaje.toString() //+ ".png"
@@ -123,7 +125,7 @@ object contador1 {
 }
 
 object contador2 {
-    var property position = game.at(16,36)
+    var property position = game.at(10,0)
     var puntaje = 0
 
 const sprites = [
@@ -139,14 +141,13 @@ const sprites = [
         "numero9.png"
     ]
 
-    var currentSpriteIndex = 0
     // Método que devuelve la ruta del sprite actual
-    method image() = sprites.get(currentSpriteIndex)
+    method image() = sprites.get(puntaje)
     
     method aumentarPuntaje(){
         puntaje += 1
-        currentSpriteIndex += 1
         self.image()
+    
     }
     
     //method image()= puntaje.toString() //+ ".png"
