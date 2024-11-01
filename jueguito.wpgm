@@ -11,6 +11,8 @@ program Lobito {
     const caballero = new Obstaculo(position = game.at(30,3), imagen = "caballero.png")
     const bruja = new Obstaculo(position = game.at(80,5), imagen = "bruja.png")
     const pinchos = new Obstaculo(position = game.at(80,3), imagen = "pinchos.png") 
+    const piso1 = new Piso(position = game.at(0,0))
+    const piso2 = new Piso(position = game.at(39,0))
 
     game.addVisual(inicio)
 
@@ -19,7 +21,8 @@ program Lobito {
             inicio.iniciar()
             game.removeVisual(inicio)
 
-            game.addVisual(piso)
+            game.addVisual(piso1)
+            game.addVisual(piso2)
             game.addVisual(lobo)
             game.addVisual(contador1)
             game.addVisual(contador2)
@@ -36,7 +39,9 @@ program Lobito {
             //Mueve un obstaculo
             game.onTick(150, "caballeroMovimiento",{caballero.avanzar()})
             game.onTick(100, "brujaMovimiento",{bruja.avanzar()})
-            game.onTick(125, "pinchosMovimiento",{pinchos.avanzar()})
+            game.onTick(150, "pinchosMovimiento",{pinchos.avanzar()})
+            game.onTick(150, "pisoMovimiento",{piso1.desplazar()})
+            game.onTick(150, "pisoMovimiento",{piso2.desplazar()})
 
             //Podría agregarse un visual de game over
             game.onCollideDo(lobo, {obs => obs.seChoco()})

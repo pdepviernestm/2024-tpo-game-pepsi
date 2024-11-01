@@ -154,12 +154,17 @@ const sprites = [
 
 }
 
-object piso {
-    var property position = game.at(0, 0)
+class Piso {
+    var property position
     const imagen ="piso.png"
 
     method desplazar(){
-
+        if (self.position()!=game.at(-39, self.position().y())){
+            self.position(self.position().left(1))
+        }
+        else {
+            self.position(game.at(39, self.position().y())) 
+        }
     }
 
     method image() = imagen
