@@ -61,6 +61,45 @@ object lobo {
 
 }
 
+class Contador{
+    var property position
+    var puntaje
+    var objetoCreado = false
+    const sprites = [
+        "numero0.png",
+        "numero1.png",
+        "numero2.png",
+        "numero3.png",
+        "numero4.png",
+        "numero5.png",
+        "numero6.png",
+        "numero7.png",
+        "numero8.png",
+        "numero9.png"
+    ]
+
+    method image() = sprites.get(puntaje)
+
+    method aumentarPuntaje(){
+    if(puntaje < 9)
+    {
+        puntaje += 1
+    }
+    else if(!objetoCreado)
+    {
+        puntaje = 0
+        const nuevaCifra = new Contador (position = game.at(self.position().x() - 1 ,10), puntaje = 1)
+        objetoCreado = true
+    }
+    else
+    {
+        puntaje = 0
+        nuevaCifra.aumentarPuntaje()
+    }
+    self.image()
+    }
+
+}
 
 class Obstaculo{
     var property position
@@ -79,7 +118,7 @@ class Obstaculo{
         game.stop()
     }
 }
-
+/*
 object contador1 {
 
     const sprites = [
@@ -114,7 +153,7 @@ object contador1 {
     else
     {
         puntaje = 0
-        contador2.aumentarPuntaje()
+        unidadContador.aumentarPuntaje()
     }
     self.image()
 
@@ -123,37 +162,7 @@ object contador1 {
     //method image()= puntaje.toString() //+ ".png"
 
 }
-
-object contador2 {
-    var property position = game.at(10,0)
-    var puntaje = 0
-
-const sprites = [
-        "numero0.png",
-        "numero1.png",
-        "numero2.png",
-        "numero3.png",
-        "numero4.png",
-        "numero5.png",
-        "numero6.png",
-        "numero7.png",
-        "numero8.png",
-        "numero9.png"
-    ]
-
-    // Método que devuelve la ruta del sprite actual
-    method image() = sprites.get(puntaje)
-    
-    method aumentarPuntaje(){
-        puntaje += 1
-        self.image()
-    
-    }
-    
-    //method image()= puntaje.toString() //+ ".png"
-
-}
-
+*/
 class Piso {
     var property position
     const imagen ="piso.png"

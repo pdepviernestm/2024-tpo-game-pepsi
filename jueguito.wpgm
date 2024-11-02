@@ -24,8 +24,8 @@ program Lobito {
             game.addVisual(piso1)
             game.addVisual(piso2)
             game.addVisual(lobo)
-            game.addVisual(contador1)
-            game.addVisual(contador2)
+            //game.addVisual(contador1)
+            const unidadContador = new Contador(position = game.at(20,10), puntaje = 0)
             game.addVisual(caballero)
             
             game.schedule(3000,{game.addVisual(bruja)})
@@ -48,7 +48,7 @@ program Lobito {
 
 
             //Contador de puntos
-            game.onTick(1000, "aumentar puntaje", {contador1.aumentarPuntaje()})
+            game.onTick(1000, "aumentar puntaje", {unidadContador.aumentarPuntaje()})
 
             keyboard.up().onPressDo({
             if (lobo.position() == game.at(10, 3)){
