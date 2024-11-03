@@ -20,12 +20,11 @@ program Lobito {
         if (!inicio.estaIniciado()){
             inicio.iniciar()
             game.removeVisual(inicio)
-
             game.addVisual(piso1)
             game.addVisual(piso2)
             game.addVisual(lobo)
             //game.addVisual(contador1)
-            const unidadContador = new Contador(position = game.at(20,10), puntaje = 0)
+            //const unidadContador = new Contador(position = game.at(20,10), puntaje = 0)
             game.addVisual(caballero)
             
             game.schedule(3000,{game.addVisual(bruja)})
@@ -44,11 +43,21 @@ program Lobito {
             game.onTick(150, "pisoMovimiento",{piso2.desplazar()})
 
             //Podría agregarse un visual de game over
-            game.onCollideDo(lobo, {obs => obs.seChoco()})
+            game.onCollideDo(lobo, {obs => obs.seChoco()
+                                    game.removeVisual(lobo)
+                                    game.removeVisual(piso1)
+                                    game.removeVisual(piso2)
+                                    game.removeVisual(pinchos)
+                                    game.removeVisual(bruja)
+                                    game.removeVisual(piso2)
+                                    game.removeVisual(caballero)
+                                    const gameOver = new Obstaculo(position = game.at(10,3), imagen = "gameover.jpg")
+                                    game.addVisual(gameOver)
+                                    })
 
 
             //Contador de puntos
-            game.onTick(1000, "aumentar puntaje", {unidadContador.aumentarPuntaje()})
+            //game.onTick(1000, "aumentar puntaje", {unidadContador.aumentarPuntaje()})
 
             keyboard.up().onPressDo({
             if (lobo.position() == game.at(10, 3)){

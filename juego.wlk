@@ -94,7 +94,7 @@ class Contador{
     else
     {
         puntaje = 0
-        nuevaCifra.aumentarPuntaje()
+        //nuevaCifra.aumentarPuntaje()
     }
     self.image()
     }
@@ -114,8 +114,9 @@ class Obstaculo{
         }
         
     }
-    method seChoco(){
-        game.stop()
+    method seChoco()
+    {
+        game.onTick(400, "stop", {game.stop()})
     }
 }
 /*
@@ -163,6 +164,7 @@ object contador1 {
 
 }
 */
+
 class Piso {
     var property position
     const imagen ="piso.png"
