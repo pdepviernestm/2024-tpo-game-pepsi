@@ -49,9 +49,8 @@ program Lobito {
                                     game.removeVisual(piso2)
                                     game.removeVisual(pinchos)
                                     game.removeVisual(bruja)
-                                    game.removeVisual(piso2)
                                     game.removeVisual(caballero)
-                                    const gameOver = new Obstaculo(position = game.at(10,3), imagen = "gameover.jpg")
+                                    const gameOver = new Obstaculo(position = game.at(0,0), imagen = "gameover.jpg")
                                     game.addVisual(gameOver)
                                     })
 
