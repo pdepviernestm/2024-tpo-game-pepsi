@@ -23,6 +23,7 @@ program Lobito {
             game.addVisual(piso1)
             game.addVisual(piso2)
             game.addVisual(lobo)
+            game.addVisual(fantasma)
             //game.addVisual(contador1)
             //const unidadContador = new Contador(position = game.at(20,10), puntaje = 0)
             game.addVisual(caballero)
@@ -41,6 +42,7 @@ program Lobito {
             game.onTick(150, "pinchosMovimiento",{pinchos.avanzar()})
             game.onTick(150, "pisoMovimiento",{piso1.desplazar()})
             game.onTick(150, "pisoMovimiento",{piso2.desplazar()})
+            game.onTick(135, "fantasmaMovimiento",{fantasma.avanzar()})
 
             //Podría agregarse un visual de game over
             game.onCollideDo(lobo, {obs => obs.seChoco()
