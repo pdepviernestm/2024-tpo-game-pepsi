@@ -14,7 +14,10 @@ program Lobito {
     const piso1 = new Piso(position = game.at(0,0))
     const piso2 = new Piso(position = game.at(39,0))
     const gameOver = new Obstaculo(position = game.at(0,0), imagen = "gameover.jpg")
-    
+    const contadorUnidad = new Contador(position = game.at(20,10), puntaje = 0)
+    const contadorDecena = new Contador(position = game.at(19,10), puntaje = 0)
+    const contadorCentena = new Contador(position = game.at(18,10), puntaje = 0)
+
     game.addVisual(inicio)
 
     keyboard.enter().onPressDo({
@@ -22,12 +25,15 @@ program Lobito {
             game.removeVisual(gameOver)
             inicio.iniciar()
             game.removeVisual(inicio)
+
             game.addVisual(piso1)
             game.addVisual(piso2)
             game.addVisual(lobo)
-            
-            //game.addVisual(contador1)
-            //const unidadContador = new Contador(position = game.at(20,10), puntaje = 0)
+
+            game.addVisual(contadorUnidad)
+            game.addVisual(contadorDecena)
+            game.addVisual(contadorCentena)
+
             game.addVisual(caballero)
             
             game.schedule(3000,{game.addVisual(bruja)})
@@ -46,8 +52,11 @@ program Lobito {
             game.onTick(150, "pisoMovimiento1",{piso1.desplazar()})
             game.onTick(150, "pisoMovimiento2",{piso2.desplazar()})
             game.onTick(135, "fantasmaMovimiento",{fantasma.avanzar()})
+            game.onTick(1000, "aumentar unidad", {contadorUnidad.aumentarPuntaje()})
+            game.onTick(10000, "aumentar decena", {contadorDecena.aumentarPuntaje()})
+            game.onTick(100000, "aumentar centena", {contadorCentena.aumentarPuntaje()})
 
-            //Podría agregarse un visual de game over
+            
             game.onCollideDo(lobo, {obs => 
                                     game.removeTickEvent("movimiento")
                                     game.removeTickEvent("caballeroMovimiento")
@@ -67,16 +76,23 @@ program Lobito {
                                     game.removeVisual(bruja)
                                     game.removeVisual(caballero)
                                     game.removeVisual(fantasma)
+                                    game.removeVisual(contadorUnidad)
+                                    game.removeTickEvent("aumentar unidad")
+                                    game.removeVisual(contadorDecena)
+                                    game.removeTickEvent("aumentar decena")
+                                    game.removeVisual(contadorCentena)
+                                    game.removeTickEvent("aumentar centena")
                                     game.addVisual(gameOver)
+                                    contadorUnidad.reiniciarPuntaje()
+                                    contadorDecena.reiniciarPuntaje()
+                                    contadorCentena.reiniciarPuntaje()
                                     inicio.finalizar()
                                     })
 
 
-            //Contador de puntos
-            //game.onTick(1000, "aumentar puntaje", {unidadContador.aumentarPuntaje()})
 
             keyboard.up().onPressDo({
-            if (lobo.position() == game.at(10, 3)){
+            if (lobo.position() == game.at(lobo.position().x(), 3)){
                 game.removeTickEvent("movimiento")
                 game.onTick(75,"salto",{
                     lobo.saltar()
@@ -87,7 +103,6 @@ program Lobito {
             })
 
         }
-        
     })
     
     game.start()
