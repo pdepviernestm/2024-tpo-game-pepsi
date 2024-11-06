@@ -46,8 +46,7 @@ object lobo {
 
 class Contador{
     var property position
-    var puntaje
-    var objetoCreado = false
+    var property puntaje
     const sprites = [
         "numero0.png",
         "numero1.png",
@@ -63,21 +62,18 @@ class Contador{
 
     method image() = sprites.get(puntaje)
 
+    method reiniciarPuntaje(){
+        puntaje = 0
+    }
+
     method aumentarPuntaje(){
     if(puntaje < 9)
     {
         puntaje += 1
     }
-    else if(!objetoCreado)
-    {
-        puntaje = 0
-        const nuevaCifra = new Contador (position = game.at(self.position().x() - 1 ,10), puntaje = 1)
-        objetoCreado = true
-    }
     else
     {
         puntaje = 0
-        //nuevaCifra.aumentarPuntaje()
     }
     self.image()
     }
@@ -98,51 +94,8 @@ class Obstaculo{
         
     }
 }
-/*
-object contador1 {
 
-    const sprites = [
-        "numero0.png",
-        "numero1.png",
-        "numero2.png",
-        "numero3.png",
-        "numero4.png",
-        "numero5.png",
-        "numero6.png",
-        "numero7.png",
-        "numero8.png",
-        "numero9.png"
-    ]
 
-    //var currentSpriteIndex = 0
-    // Método que devuelve la ruta del sprite actual
-    method image() = sprites.get(puntaje)
-
-    var property position = game.at(11,0)
-    var puntaje = 0
-
-    method aumentarPuntaje(){
-        
-
-    if(puntaje < 9)
-    {
-        puntaje += 1
-        
-        //contador2.image()
-    }
-    else
-    {
-        puntaje = 0
-        unidadContador.aumentarPuntaje()
-    }
-    self.image()
-
-    }
-    
-    //method image()= puntaje.toString() //+ ".png"
-
-}
-*/
 
 object fantasma inherits Obstaculo(position = game.at(100,3), imagen = "fantasma.png") {
     var movimientoAuxiliar = 0
