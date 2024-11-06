@@ -1,39 +1,20 @@
 object lobo {
     var property position = game.at(10, 3)
 
-    const sprites = [
-        "correr1.png",
-        "correr2.png",
-        "correr3.png",
-        "correr4.png",
-        "correr5.png",
-        "correr6.png",
-        "correr7.png",
-        "correr8.png",
-        "correr9.png",
-        "saltar1.png",
-        "saltar2.png",
-        "saltar3.png",
-        "saltar4.png",
-        "saltar5.png",
-        "saltar5.png",
-        "saltar6.png",
-        "saltar6.png",
-        "saltar7.png",
-        "saltar7.png",
-        "saltar8.png",
-        "saltar8.png"
-    ]
+    var sprite = "correr"
 
-    var currentSpriteIndex = 0
+    var currentSpriteIndex = 1
     // Método que devuelve la ruta del sprite actual
-    method image() = sprites.get(currentSpriteIndex)
+    method image() = sprite + (currentSpriteIndex).stringValue() + ".png"
 
     // Método para mover el personaje y actualizar el sprite
     
     method correr() {
-        if(currentSpriteIndex>=8){
-            currentSpriteIndex=0
+        if (sprite!="correr"){
+            sprite="correr"
+        }
+        if(currentSpriteIndex>8){
+            currentSpriteIndex=1
         }
         else{
             currentSpriteIndex+=1
@@ -43,17 +24,19 @@ object lobo {
     }
 
     method saltar() {
-        if(currentSpriteIndex <= 8){
-            currentSpriteIndex = 9
+        if (sprite!="saltar"){
+            sprite = "saltar"
+            currentSpriteIndex = 1
             self.image()
             self.position(self.position().up(1))
             game.schedule(200, {self.position(self.position().up(1))})
             game.schedule(400, {self.position(self.position().down(1))})
             game.schedule(600, {self.position(self.position().down(1))})
-            game.schedule(650, {currentSpriteIndex = 0})
         }
         else{
-            currentSpriteIndex += 1
+            if (currentSpriteIndex<7){
+                currentSpriteIndex += 1
+            }
             self.image()
         }
         
@@ -113,10 +96,6 @@ class Obstaculo{
             self.position(game.at(80, self.position().y())) 
         }
         
-    }
-    method seChoco()
-    {
-        game.onTick(400, "stop", {game.stop()})
     }
 }
 /*
@@ -212,5 +191,9 @@ object inicio {
 
     method iniciar() {
       iniciado=true
+    }
+
+    method finalizar(){
+        iniciado=false;
     }
 }

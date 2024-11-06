@@ -13,23 +13,26 @@ program Lobito {
     const pinchos = new Obstaculo(position = game.at(80,3), imagen = "pinchos.png") 
     const piso1 = new Piso(position = game.at(0,0))
     const piso2 = new Piso(position = game.at(39,0))
-
+    const gameOver = new Obstaculo(position = game.at(0,0), imagen = "gameover.jpg")
+    
     game.addVisual(inicio)
 
     keyboard.enter().onPressDo({
         if (!inicio.estaIniciado()){
+            game.removeVisual(gameOver)
             inicio.iniciar()
             game.removeVisual(inicio)
             game.addVisual(piso1)
             game.addVisual(piso2)
             game.addVisual(lobo)
-            game.addVisual(fantasma)
+            
             //game.addVisual(contador1)
             //const unidadContador = new Contador(position = game.at(20,10), puntaje = 0)
             game.addVisual(caballero)
             
             game.schedule(3000,{game.addVisual(bruja)})
             game.schedule(3000,{game.addVisual(pinchos)})
+            game.schedule(3000,{game.addVisual(fantasma)})
   
             // Actualiza el sprite y mueve el lobo cada 100 milisegundos
             game.onTick(100, "movimiento", {
@@ -40,20 +43,31 @@ program Lobito {
             game.onTick(150, "caballeroMovimiento",{caballero.avanzar()})
             game.onTick(110, "brujaMovimiento",{bruja.avanzar()})
             game.onTick(150, "pinchosMovimiento",{pinchos.avanzar()})
-            game.onTick(150, "pisoMovimiento",{piso1.desplazar()})
-            game.onTick(150, "pisoMovimiento",{piso2.desplazar()})
+            game.onTick(150, "pisoMovimiento1",{piso1.desplazar()})
+            game.onTick(150, "pisoMovimiento2",{piso2.desplazar()})
             game.onTick(135, "fantasmaMovimiento",{fantasma.avanzar()})
 
             //Podría agregarse un visual de game over
-            game.onCollideDo(lobo, {obs => obs.seChoco()
+            game.onCollideDo(lobo, {obs => 
+                                    game.removeTickEvent("movimiento")
+                                    game.removeTickEvent("caballeroMovimiento")
+                                    caballero.position(game.at(30,3))
+                                    game.removeTickEvent("brujaMovimiento")
+                                    bruja.position(game.at(80,5))
+                                    game.removeTickEvent("pinchosMovimiento")
+                                    pinchos.position(game.at(80,3))
+                                    game.removeTickEvent("pisoMovimiento1")
+                                    game.removeTickEvent("pisoMovimiento2")
+                                    game.removeTickEvent("fantasmaMovimiento")
+                                    fantasma.position(game.at(100,3))
                                     game.removeVisual(lobo)
                                     game.removeVisual(piso1)
                                     game.removeVisual(piso2)
                                     game.removeVisual(pinchos)
                                     game.removeVisual(bruja)
                                     game.removeVisual(caballero)
-                                    const gameOver = new Obstaculo(position = game.at(0,0), imagen = "gameover.jpg")
                                     game.addVisual(gameOver)
+                                    inicio.finalizar()
                                     })
 
 
