@@ -96,6 +96,11 @@ class Obstaculo{
 }
 
 
+class Cancion{
+    const property pista
+    var property isRunning = false
+}
+
 
 class Fantasma inherits Obstaculo{
     var movimientoAuxiliar = 0

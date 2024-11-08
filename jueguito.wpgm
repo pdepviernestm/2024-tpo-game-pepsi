@@ -14,25 +14,67 @@ program Lobito {
     const pinchos = new Obstaculo(position = game.at(40,3), imagen = "pinchos.png") 
     const piso1 = new Piso(position = game.at(0,0))
     const piso2 = new Piso(position = game.at(39,0))
+    const celebracion = new Obstaculo(position = game.at(23,0), imagen = "celebracion.png")
+    const celebracion2 = new Obstaculo(position = game.at(1,0), imagen = "celebracion.png")
     const gameOver = new Obstaculo(position = game.at(0,0), imagen = "gameover.jpg")
     const contadorUnidad = new Contador(position = game.at(32,18), puntaje = 0)
     const contadorDecena = new Contador(position = game.at(31,18), puntaje = 0)
     const contadorCentena = new Contador(position = game.at(30,18), puntaje = 0)
     const fantasma = new Fantasma(position = game.at(60,3), imagen = "fantasma.png")
-    const musicaJuego = game.sound("musica juego.mp3")
-    const musicaInicio = game.sound("musica inicio.mp3")
-    musicaInicio.play()
-    musicaInicio.shouldLoop(true)
-
+    const wakeMe = new Cancion(pista = game.sound("wake_me_up.mp3"))
+    const noche = new Cancion(pista = game.sound("noche.mp3"))
+    const plastic = new Cancion(pista = game.sound("plastic.mp3"))
     game.addVisual(inicio)
-
-
+    game.addVisual(celebracion)
+    game.addVisual(celebracion2)
     
+    keyboard.space().onPressDo({
+        if(plastic.isRunning()){
+            plastic.pista().stop()
+            plastic.isRunning(false)
+        } else if(wakeMe.isRunning()){
+            wakeMe.pista().stop()
+            wakeMe.isRunning(false)
+        }
+        noche.pista().play()
+        noche.isRunning(true)
+        noche.pista().shouldLoop(true)
+    })
+
+    keyboard.w().onPressDo({
+        if(plastic.pista().isRunning()){
+            plastic.pista().stop()
+            plastic.isRunning(false)
+        }  else if(noche.isRunning()){
+            noche.pista().stop()
+            noche.isRunning(false)
+        }
+        wakeMe.pista().play()
+        wakeMe.isRunning(true)
+        wakeMe.pista().shouldLoop(true)
+    })
+
+    keyboard.b().onPressDo({
+        if(noche.isRunning()){
+            noche.pista().stop()
+            noche.isRunning(false)
+        }  else if(wakeMe.isRunning()){
+            wakeMe.pista().stop()
+            wakeMe.isRunning(false)
+        }
+        plastic.pista().play()
+        plastic.isRunning(true)
+        plastic.pista().shouldLoop(true)
+    })
+
     keyboard.enter().onPressDo({
         if (!inicio.estaIniciado()){
-            musicaInicio.stop()
-            musicaJuego.play()
-            musicaJuego.shouldLoop(true)
+            game.removeVisual(celebracion)
+            game.removeVisual(celebracion2)
+            if (wakeMe.isRunning()){
+                wakeMe.stop()
+                wakeMe.isRunning(false)
+            }
             game.removeVisual(gameOver)
             inicio.iniciar()
             game.removeVisual(inicio)
@@ -68,10 +110,19 @@ program Lobito {
             game.onTick(135, "fantasmaMovimiento",{fantasma.avanzar()})
 
             
-            game.onCollideDo(lobo, {obs => 
-                                    musicaJuego.stop()
-                                    musicaInicio.play()
-                                    musicaInicio.shouldLoop(true)
+            game.onCollideDo(lobo, {obs =>
+                                    if(plastic.isRunning()){
+                                        plastic.pista().stop()
+                                        plastic.isRunning(false)
+                                    } else if (noche.isRunning()){
+                                        noche.pista().stop()
+                                        noche.isRunning(false)
+                                    } else if(wakeMe.isRunning()){
+                                        wakeMe.pista().stop()
+                                        wakeMe.isRunning(false)
+                                    }
+                                    wakeMe.pista().play()
+                                    wakeMe.isRunning(true)
                                     game.removeTickEvent("movimiento")
                                     game.removeTickEvent("caballeroMovimiento")
                                     caballero.position(game.at(30,3))
