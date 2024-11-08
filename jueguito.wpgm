@@ -42,7 +42,7 @@ program Lobito {
     })
 
     keyboard.w().onPressDo({
-        if(plastic.pista().isRunning()){
+        if(plastic.isRunning()){
             plastic.pista().stop()
             plastic.isRunning(false)
         }  else if(noche.isRunning()){
@@ -72,7 +72,7 @@ program Lobito {
             game.removeVisual(celebracion)
             game.removeVisual(celebracion2)
             if (wakeMe.isRunning()){
-                wakeMe.stop()
+                wakeMe.pista().stop()
                 wakeMe.isRunning(false)
             }
             game.removeVisual(gameOver)
