@@ -89,7 +89,7 @@ class Obstaculo{
             self.position(self.position().left(1))
         }
         else{
-            self.position(game.at(80, self.position().y())) 
+            self.position(game.at(40, self.position().y())) 
         }
         
     }
@@ -97,25 +97,33 @@ class Obstaculo{
 
 
 
-object fantasma inherits Obstaculo(position = game.at(100,3), imagen = "fantasma.png") {
+class Fantasma inherits Obstaculo{
     var movimientoAuxiliar = 0
-    override method avanzar(){
-        if (self.position() != game.at(0, self.position().y()) && movimientoAuxiliar != 4 && movimientoAuxiliar != 8){
-            self.position(self.position().left(1))
-            movimientoAuxiliar += 1
-        }
-        else if(movimientoAuxiliar == 4){
-            self.position(self.position().left(1))
-            self.position(self.position().up(1))
-            movimientoAuxiliar += 1
-        }else if(movimientoAuxiliar == 8){
-            self.position(self.position().left(1))
-            self.position(self.position().down(1))
-            movimientoAuxiliar = 0
-        }else {
-            self.position(game.at(80, self.position().y()))
-        }
 
+    method reiniciarAux() {
+      movimientoAuxiliar=0
+    }
+
+    override method avanzar(){
+        if(self.position() != game.at(0,self.position().y())){
+            if (movimientoAuxiliar != 4 && movimientoAuxiliar != 8){
+                self.position(self.position().left(1))
+                movimientoAuxiliar += 1
+            }
+            else if(movimientoAuxiliar == 4){
+                self.position(self.position().left(1))
+                self.position(self.position().up(1))
+                movimientoAuxiliar += 1
+            }else if(movimientoAuxiliar == 8){
+                self.position(self.position().left(1))
+                self.position(self.position().down(1))
+                self.reiniciarAux()
+            }
+        }
+        else{
+            self.reiniciarAux()
+            self.position(game.at(60,3))
+        }
     }
 }
 
