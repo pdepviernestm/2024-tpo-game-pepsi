@@ -1,0 +1,176 @@
+import juego.*
+import wollok.game.*
+
+program Lobito {
+    game.title("Lobizon")   
+    game.width(40)
+    game.height(20)
+    
+
+    game.boardGround("fondo.jpg")
+
+    const caballero = new Obstaculo(position = game.at(30,3), imagen = "caballero.png")
+    const bruja = new Obstaculo(position = game.at(40,5), imagen = "bruja.png")
+    const pinchos = new Obstaculo(position = game.at(40,3), imagen = "pinchos.png") 
+    const piso1 = new Piso(position = game.at(0,0))
+    const piso2 = new Piso(position = game.at(39,0))
+    const celebracion = new Obstaculo(position = game.at(23,0), imagen = "celebracion.png")
+    const celebracion2 = new Obstaculo(position = game.at(1,0), imagen = "celebracion.png")
+    const gameOver = new Obstaculo(position = game.at(0,0), imagen = "gameover.jpg")
+    const contadorUnidad = new Contador(position = game.at(32,18), puntaje = 0)
+    const contadorDecena = new Contador(position = game.at(31,18), puntaje = 0)
+    const contadorCentena = new Contador(position = game.at(30,18), puntaje = 0)
+    const fantasma = new Fantasma(position = game.at(60,3), imagen = "fantasma.png")
+    const wakeMe = new Cancion(pista = game.sound("wake_me_up.mp3"))
+    const noche = new Cancion(pista = game.sound("noche.mp3"))
+    const plastic = new Cancion(pista = game.sound("plastic.mp3"))
+    game.addVisual(inicio)
+    game.addVisual(celebracion)
+    game.addVisual(celebracion2)
+    
+    keyboard.space().onPressDo({
+        if(plastic.isRunning()){
+            plastic.pista().stop()
+            plastic.isRunning(false)
+        } else if(wakeMe.isRunning()){
+            wakeMe.pista().stop()
+            wakeMe.isRunning(false)
+        }
+        noche.pista().play()
+        noche.isRunning(true)
+        noche.pista().shouldLoop(true)
+    })
+
+    keyboard.w().onPressDo({
+        if(plastic.isRunning()){
+            plastic.pista().stop()
+            plastic.isRunning(false)
+        }  else if(noche.isRunning()){
+            noche.pista().stop()
+            noche.isRunning(false)
+        }
+        wakeMe.pista().play()
+        wakeMe.isRunning(true)
+        wakeMe.pista().shouldLoop(true)
+    })
+
+    keyboard.b().onPressDo({
+        if(noche.isRunning()){
+            noche.pista().stop()
+            noche.isRunning(false)
+        }  else if(wakeMe.isRunning()){
+            wakeMe.pista().stop()
+            wakeMe.isRunning(false)
+        }
+        plastic.pista().play()
+        plastic.isRunning(true)
+        plastic.pista().shouldLoop(true)
+    })
+
+    keyboard.enter().onPressDo({
+        if (!inicio.estaIniciado()){
+            game.removeVisual(celebracion)
+            game.removeVisual(celebracion2)
+            if (wakeMe.isRunning()){
+                wakeMe.pista().stop()
+                wakeMe.isRunning(false)
+            }
+            game.removeVisual(gameOver)
+            inicio.iniciar()
+            game.removeVisual(inicio)
+
+            game.addVisual(piso1)
+            game.addVisual(piso2)
+            game.addVisual(lobo)
+
+            game.addVisual(contadorUnidad)
+            game.addVisual(contadorDecena)
+            game.addVisual(contadorCentena)
+
+            game.addVisual(caballero)
+            game.addVisual(bruja)
+            game.addVisual(pinchos)
+            game.addVisual(fantasma)
+           
+                    
+            // Actualiza el sprite y mueve el lobo cada 100 milisegundos
+            game.onTick(100, "movimiento", {
+                lobo.correr()
+            })  
+
+            //Mueve un obstaculo
+            game.onTick(150, "caballeroMovimiento",{caballero.avanzar()})
+            game.onTick(110, "brujaMovimiento",{bruja.avanzar()})
+            game.onTick(150, "pinchosMovimiento",{pinchos.avanzar()})
+            game.onTick(150, "pisoMovimiento1",{piso1.desplazar()})
+            game.onTick(150, "pisoMovimiento2",{piso2.desplazar()})
+            game.onTick(1000, "aumentar unidad", {contadorUnidad.aumentarPuntaje()})
+            game.onTick(10000, "aumentar decena", {contadorDecena.aumentarPuntaje()})
+            game.onTick(100000, "aumentar centena", {contadorCentena.aumentarPuntaje()})
+            game.onTick(135, "fantasmaMovimiento",{fantasma.avanzar()})
+
+            
+            game.onCollideDo(lobo, {obs =>
+                                    if(plastic.isRunning()){
+                                        plastic.pista().stop()
+                                        plastic.isRunning(false)
+                                    } else if (noche.isRunning()){
+                                        noche.pista().stop()
+                                        noche.isRunning(false)
+                                    } else if(wakeMe.isRunning()){
+                                        wakeMe.pista().stop()
+                                        wakeMe.isRunning(false)
+                                    }
+                                    wakeMe.pista().play()
+                                    wakeMe.isRunning(true)
+                                    game.removeTickEvent("movimiento")
+                                    game.removeTickEvent("caballeroMovimiento")
+                                    caballero.position(game.at(30,3))
+                                    game.removeTickEvent("brujaMovimiento")
+                                    bruja.position(game.at(40,5))
+                                    game.removeTickEvent("pinchosMovimiento")
+                                    pinchos.position(game.at(40,3))
+                                    game.removeTickEvent("pisoMovimiento1")
+                                    game.removeTickEvent("pisoMovimiento2")
+                                    game.removeTickEvent("fantasmaMovimiento")
+                                    fantasma.reiniciarAux()
+                                    fantasma.position(game.at(60,3))
+                                    game.removeVisual(lobo)
+                                    game.removeVisual(piso1)
+                                    game.removeVisual(piso2)
+                                    game.removeVisual(pinchos)
+                                    game.removeVisual(bruja)
+                                    game.removeVisual(caballero)
+                                    game.removeVisual(fantasma)
+                                    game.removeVisual(contadorUnidad)
+                                    game.removeTickEvent("aumentar unidad")
+                                    game.removeVisual(contadorDecena)
+                                    game.removeTickEvent("aumentar decena")
+                                    game.removeVisual(contadorCentena)
+                                    game.removeTickEvent("aumentar centena")
+                                    game.addVisual(gameOver)
+                                    contadorUnidad.reiniciarPuntaje()
+                                    contadorDecena.reiniciarPuntaje()
+                                    contadorCentena.reiniciarPuntaje()
+                                    inicio.finalizar()
+                                    })
+
+
+
+            keyboard.up().onPressDo({
+            if (lobo.position() == game.at(lobo.position().x(), 3)){
+                game.removeTickEvent("movimiento")
+                game.onTick(75,"salto",{
+                    lobo.saltar()
+                })
+                game.schedule(525, {game.removeTickEvent("salto")})
+                game.schedule(675, {game.onTick(100, "movimiento", {lobo.correr()})})
+            }
+            })
+
+        }
+    })
+    
+    game.start()
+}
+

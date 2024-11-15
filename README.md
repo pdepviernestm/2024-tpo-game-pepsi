@@ -1,22 +1,21 @@
-# Nombre del juego (<- borrar y completar)
+# Lobito
 
-## Equipo de desarrollo
+## Pepsi
 
-- Alguien
-- Persona
-- etc.
+- Federico Gaston Longo
+- Agustín Barolo
+- Gian Chianetta
+- Tomas Gonzalez
 
-## Capturas
-
-(agregar)
 
 ## Reglas de Juego / Instrucciones
+Funciones
 
-(Escribirlas)
+Iniciar juego: Enter
 
+Saltar: Flecha hacia arriba
 
-## Otros
+Cambiar pistas de audio:B/W/Espacio
 
-- Curso/Facultad
-- Versión de wollok
-- Una vez terminado, no tenemos problemas en que el repositorio sea público / queremos manternerlo privado
+- Curso K2005
+- Una vez terminado, no tenemos problemas en que el repositorio sea público
